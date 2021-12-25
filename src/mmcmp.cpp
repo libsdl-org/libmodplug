@@ -210,7 +210,7 @@ BOOL MMCMP_Unpack(LPCBYTE *ppMemFile, LPDWORD pdwMemLength)
 				    swap_subblock(psubblk);
 				}
 				if ((psubblk->unpk_pos >= dwFileSize) ||
-				    (psubblk->unpk_size >= dwFileSize) ||
+				    (psubblk->unpk_size > dwFileSize) ||
 				    (psubblk->unpk_size > dwFileSize - psubblk->unpk_pos)) {
 				  break;
 				}
