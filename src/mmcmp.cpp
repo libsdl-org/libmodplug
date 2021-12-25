@@ -157,7 +157,7 @@ BOOL MMCMP_Unpack(LPCBYTE *ppMemFile, LPDWORD pdwMemLength)
 {
 	DWORD dwMemLength;
 	LPCBYTE lpMemFile;
-	LPBYTE pBuffer;
+	LPBYTE pBuffer, pEnd;
 	LPMMCMPFILEHEADER pmfh;
 	LPMMCMPHEADER pmmh;
 	const DWORD *pblk_table;
@@ -187,6 +187,7 @@ BOOL MMCMP_Unpack(LPCBYTE *ppMemFile, LPDWORD pdwMemLength)
 	dwFileSize = pmmh->filesize;
 	if ((pBuffer = (LPBYTE)malloc(dwFileSize)) == NULL)
 		return FALSE;
+	pEnd = pBuffer + dwFileSize;
 	pblk_table = (const DWORD *)(lpMemFile+pmmh->blktable);
 	for (UINT nBlock=0; nBlock<pmmh->nblocks; nBlock++)
 	{
@@ -303,8 +304,10 @@ BOOL MMCMP_Unpack(LPCBYTE *ppMemFile, LPDWORD pdwMemLength)
 					{
 						newval ^= 0x8000;
 					}
-					pDest[dwPos++] = (BYTE) (((WORD)newval) & 0xff);
-					pDest[dwPos++] = (BYTE) (((WORD)newval) >> 8);
+					if (pEnd - pDest < 2) goto err;
+					dwPos += 2;
+					*pDest++ = (BYTE) (((WORD)newval) & 0xff);
+					*pDest++ = (BYTE) (((WORD)newval) >> 8);
 				}
 				if (dwPos >= dwSize)
 				{
