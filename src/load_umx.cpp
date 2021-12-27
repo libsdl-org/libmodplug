@@ -265,7 +265,7 @@ static int probe_header (void *header)
 		return -1;
 	}
 
-#if 0
+#if 1 /* no need being overzealous */
 	return 0;
 #else
 	switch (hdr->file_version) {
@@ -283,7 +283,7 @@ static int probe_header (void *header)
 	}
 
 	return -1;/* Unknown upkg version for an UMX */
-#endif
+#endif /* #if 0  */
 }
 
 static int process_upkg (const BYTE *membase, LONG memlen,
