@@ -8,7 +8,7 @@ option(BUILD_SHARED_LIBS "Build Shared Library (DLL)" OFF)
 option(EXPORT_CXX "Export C++ interface from library" ON)
 option(MIDIFMT_SUPPORT "Enable midi formats support" OFF)
 option(WAV_SUPPORT "Enable wav formats support" OFF)
-option(MMCMP_SUPPORT "Enable mmcmp and pp20 decompression support" OFF)
+option(MMCMP_SUPPORT "Enable mmcmp and pp20 decompression support" ON)
 
 add_definitions(-DMODPLUG_BUILD)
 if(MIDIFMT_SUPPORT)
