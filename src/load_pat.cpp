@@ -1050,10 +1050,10 @@ static void PATinst(INSTRUMENTHEADER *d, int smp, int gm)
 		pat_setpat_inst(&hw, d, smp);
 	}
 	/* strncpy 0-inits the entire field. */
-	strncpy(d->name, hw.reserved[0] ? hw.reserved : midipat[gm-1], 32);
+	strncpy((char *)d->name, hw.reserved[0] ? hw.reserved : midipat[gm-1], 32);
 	d->name[31] = '\0';
 
-	strncpy(d->filename, midipat[gm-1], 12);
+	strncpy((char *)d->filename, midipat[gm-1], 12);
 	d->filename[11] = '\0';
 }
 
