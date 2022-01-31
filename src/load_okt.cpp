@@ -59,7 +59,7 @@ BOOL CSoundFile::ReadOKT(const BYTE *lpStream, DWORD dwMemLength)
 	// Reading samples
 	for (UINT smp=1; smp <= nsamples; smp++)
 	{
-		if (dwMemPos + sizeof(OKTSAMPLE) >= dwMemLength) return TRUE;
+		if (dwMemPos >= dwMemLength - sizeof(OKTSAMPLE)) return TRUE;
 		if (smp < MAX_SAMPLES)
 		{
 			OKTSAMPLE *psmp = (OKTSAMPLE *)(lpStream + dwMemPos);
@@ -78,7 +78,7 @@ BOOL CSoundFile::ReadOKT(const BYTE *lpStream, DWORD dwMemLength)
 		dwMemPos += sizeof(OKTSAMPLE);
 	}
 	// SPEE
-	if (dwMemPos + 10 > dwMemLength) return TRUE;
+	if (dwMemPos >= dwMemLength - 12) return TRUE;
 	if (*((DWORD *)(lpStream + dwMemPos)) == 0x45455053)
 	{
 		m_nDefaultSpeed = lpStream[dwMemPos+9];
@@ -113,7 +113,7 @@ BOOL CSoundFile::ReadOKT(const BYTE *lpStream, DWORD dwMemLength)
 	}
 	// PBOD
 	UINT npat = 0;
-	while ((dwMemPos+10 < dwMemLength) && (*((DWORD *)(lpStream + dwMemPos)) == 0x444F4250))
+	while ((dwMemPos < dwMemLength - 10) && (*((DWORD *)(lpStream + dwMemPos)) == 0x444F4250))
 	{
 		DWORD dwPos = dwMemPos + 10;
 		UINT rows = lpStream[dwMemPos+9];
@@ -189,7 +189,7 @@ BOOL CSoundFile::ReadOKT(const BYTE *lpStream, DWORD dwMemLength)
 	}
 	// SBOD
 	UINT nsmp = 1;
-	while ((dwMemPos+10 < dwMemLength) && (*((DWORD *)(lpStream + dwMemPos)) == 0x444F4253))
+	while ((dwMemPos < dwMemLength-10) && (*((DWORD *)(lpStream + dwMemPos)) == 0x444F4253))
 	{
 		if (nsmp < MAX_SAMPLES) ReadSample(&Ins[nsmp], RS_PCM8S, (LPSTR)(lpStream+dwMemPos+8), dwMemLength-dwMemPos-8);
 		dwMemPos += bswapBE32(*((DWORD *)(lpStream + dwMemPos + 4))) + 8;
