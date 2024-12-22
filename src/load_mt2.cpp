@@ -413,8 +413,8 @@ BOOL CSoundFile::ReadMT2(LPCBYTE lpStream, DWORD dwMemLength)
 #ifdef MT2DEBUG
 	Log("Loading instruments at offset 0x%08X\n", dwMemPos);
 #endif
-	memset(InstrMap, 0, sizeof(InstrMap));
 	m_nInstruments = (pfh->wInstruments < MAX_INSTRUMENTS) ? pfh->wInstruments : MAX_INSTRUMENTS-1;
+	for (UINT iIns=0; iIns< 255; iIns++) InstrMap[iIns]=NULL;
 	for (UINT iIns=1; iIns<=255; iIns++)
 	{
 		if (dwMemPos+36 > dwMemLength) return TRUE;
@@ -556,8 +556,8 @@ BOOL CSoundFile::ReadMT2(LPCBYTE lpStream, DWORD dwMemLength)
 #ifdef MT2DEBUG
 	Log("Loading samples at offset 0x%08X\n", dwMemPos);
 #endif
-	memset(SampleMap, 0, sizeof(SampleMap));
 	m_nSamples = (pfh->wSamples < MAX_SAMPLES) ? pfh->wSamples : MAX_SAMPLES-1;
+	for (UINT iSmp=0; iSmp< 256; iSmp++) SampleMap[iSmp]=NULL;
 	for (UINT iSmp=1; iSmp<=256; iSmp++)
 	{
 		if (dwMemPos > dwMemLength - 36) return TRUE;
